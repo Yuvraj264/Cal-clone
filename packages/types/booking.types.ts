@@ -1,4 +1,4 @@
-export type BookingStatus = 'scheduled' | 'cancelled' | 'completed';
+export type BookingStatus = 'scheduled' | 'cancelled' | 'completed' | 'confirmed';
 
 export interface IBookingBase {
   eventTypeId: string;
@@ -13,4 +13,16 @@ export interface IBookingDTO extends IBookingBase {
   id: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export type Slot = string; // e.g. "09:00"
+
+export interface SlotResponse {
+  date: string;
+  slots: Slot[];
+}
+
+export interface SlotQueryParams {
+  slug: string;
+  date: string;
 }

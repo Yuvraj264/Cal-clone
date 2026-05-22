@@ -13,6 +13,7 @@ const bookingRoutes_1 = __importDefault(require("./routes/bookingRoutes"));
 const slotRoutes_1 = __importDefault(require("./routes/slotRoutes"));
 const eventType_routes_1 = __importDefault(require("./routes/eventType.routes"));
 const availability_routes_1 = __importDefault(require("./routes/availability.routes"));
+const slot_routes_1 = __importDefault(require("./routes/slot.routes"));
 const error_middleware_1 = require("./middleware/error.middleware");
 const app = (0, express_1.default)();
 // Standard Request Stream Logging Middleware
@@ -30,6 +31,7 @@ app.use(express_1.default.urlencoded({ extended: true }));
 app.use('/api/health', health_routes_1.default);
 app.use('/api/event-types', eventType_routes_1.default);
 app.use('/api/availability', availability_routes_1.default);
+app.use('/api/slots', slot_routes_1.default);
 // Retain and mount our phase-wise features
 app.use('/api/v1/auth', authRoutes_1.default);
 app.use('/api/v1/bookings', bookingRoutes_1.default);
