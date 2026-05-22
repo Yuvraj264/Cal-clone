@@ -3,6 +3,10 @@ import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 
+import authRoutes from './routes/authRoutes';
+import bookingRoutes from './routes/bookingRoutes';
+import slotRoutes from './routes/slotRoutes';
+
 const app = express();
 
 // Standard Security Middlewares
@@ -28,6 +32,11 @@ const limiter = rateLimit({
   }
 });
 app.use('/api/', limiter);
+
+// Mount API Route Endpoints
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/bookings', bookingRoutes);
+app.use('/api/v1/slots', slotRoutes);
 
 // Health Check Route
 app.get('/health', (req, res) => {
