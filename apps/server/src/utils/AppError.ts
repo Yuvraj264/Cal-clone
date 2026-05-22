@@ -5,7 +5,7 @@ export class AppError extends Error {
     message: string
   ) {
     super(message);
-    Object.setPrototypeOf(this, new Target().constructor);
+    Object.setPrototypeOf(this, AppError.prototype);
   }
 }
 

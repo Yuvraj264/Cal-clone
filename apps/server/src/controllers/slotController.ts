@@ -63,8 +63,7 @@ export class SlotController {
         existingBookings: existingBookings.map(b => ({
           startTime: b.startTime,
           endTime: b.endTime
-        })),
-        guestTimezone: timezone || 'UTC'
+        }))
       });
 
       res.status(200).json({

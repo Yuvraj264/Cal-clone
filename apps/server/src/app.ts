@@ -2,12 +2,17 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import morgan from 'morgan'; // Standard request logging
 
 import authRoutes from './routes/authRoutes';
 import bookingRoutes from './routes/bookingRoutes';
 import slotRoutes from './routes/slotRoutes';
+import { errorHandler } from './middlewares/errorHandler';
 
 const app = express();
+
+// Standard Morgan Logger for Request Streams
+app.use(morgan('dev'));
 
 // Standard Security Middlewares
 app.use(helmet());
@@ -43,27 +48,7 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'healthy', timestamp: new Date() });
 });
 
-// Sample Core API Routing Placeholder
-app.get('/api/v1', (req, res) => {
-  res.status(200).json({ message: 'Welcome to the CalClone REST API v1.' });
-});
-
-// Standardized Global Error Handler Middleware
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  const statusCode = err.statusCode || 500;
-  const errorCode = err.code || 'INTERNAL_SERVER_ERROR';
-
-  if (statusCode === 500) {
-    console.error('[CRITICAL SERVER ERROR]:', err);
-  }
-
-  res.status(statusCode).json({
-    success: false,
-    error: {
-      code: errorCode,
-      message: err.message || 'An unexpected server error occurred.'
-    }
-  });
-});
+// Centralized Error Handler Interceptor
+app.use(errorHandler);
 
 export default app;

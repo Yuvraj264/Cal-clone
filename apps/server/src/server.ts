@@ -1,25 +1,23 @@
 import dotenv from 'dotenv';
-import mongoose from 'mongoose';
 import app from './app';
+import { connectDB } from './config/db';
 
-// Load environmental variables
+// Load env configurations
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/calclone';
 
-// Async Database Connection & Port listener
 async function bootstrap() {
   try {
-    mongoose.set('strictQuery', true);
-    await mongoose.connect(MONGO_URI);
-    console.log('Successfully connected to MongoDB database server.');
+    // 1. Initialize MongoDB connection pool
+    await connectDB();
 
+    // 2. Start API Listening
     app.listen(PORT, () => {
-      console.log(`Express server running on port: http://localhost:${PORT}`);
+      console.log(`Express API Server listening on: http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.error('Failed to establish database connection:', error);
+    console.error('[CRITICAL BOOTSTRAP FAILURE]:', error);
     process.exit(1);
   }
 }
