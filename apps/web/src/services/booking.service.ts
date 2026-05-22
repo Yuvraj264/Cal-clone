@@ -1,41 +1,40 @@
-import axios from 'axios';
-import { Booking } from '@calclone/types';
+import { Booking, CreateBookingPayload } from '@calclone/types';
+import { apiClient, invalidateApiCache } from './apiClient';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL 
-  ? process.env.NEXT_PUBLIC_API_URL.replace('/v1', '') 
-  : 'http://localhost:5000/api';
-
-const bookingClient = axios.create({
-  baseURL: API_BASE,
-  withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-export const BookingService = {
+export class BookingService {
   /**
-   * Fetches all booking records from backend.
+   * Fetch all bookings with event type details populated, sorted upcoming first.
    */
-  async fetchBookings(): Promise<Booking[]> {
-    const response = await bookingClient.get('/bookings');
-    return response.data.data;
-  },
+  static async fetchBookings(): Promise<Booking[]> {
+    const res = await apiClient.get<{ success: boolean; data: Booking[] }>('/bookings');
+    return res.data.data;
+  }
 
   /**
-   * Fetches a single booking record by ID.
+   * Fetch a single booking by ID.
    */
-  async fetchBookingById(id: string): Promise<Booking> {
-    const response = await bookingClient.get(`/bookings/${id}`);
-    return response.data.data;
-  },
+  static async fetchBookingById(id: string): Promise<Booking> {
+    const res = await apiClient.get<{ success: boolean; data: Booking }>(`/bookings/${id}`);
+    return res.data.data;
+  }
 
   /**
-   * Cancels a booking using its ObjectId.
+   * Create new guest booking appointment.
    */
-  async cancelBooking(id: string): Promise<Booking> {
-    const response = await bookingClient.patch(`/bookings/${id}/cancel`);
-    return response.data.data;
-  },
-};
+  static async createBooking(payload: CreateBookingPayload): Promise<Booking> {
+    invalidateApiCache(); // Invalidate local request cache on mutation
+    const res = await apiClient.post<{ success: boolean; data: Booking }>('/bookings', payload);
+    return res.data.data;
+  }
+
+  /**
+   * Cancel an appointment (Status transition scheduled -> cancelled).
+   */
+  static async cancelBooking(id: string): Promise<Booking> {
+    invalidateApiCache(); // Invalidate local request cache on mutation
+    const res = await apiClient.patch<{ success: boolean; data: Booking }>(`/bookings/${id}/cancel`);
+    return res.data.data;
+  }
+}
+
 export default BookingService;
