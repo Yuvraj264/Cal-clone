@@ -1,20 +1,17 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EventType = void 0;
-const mongoose_1 = require("mongoose");
-const EventTypeSchema = new mongoose_1.Schema({
-    userId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true },
-    title: { type: String, required: true, trim: true },
-    slug: { type: String, required: true, trim: true },
-    description: { type: String, default: '' },
-    duration: { type: Number, required: true, min: [5, 'Duration must be at least 5 minutes'] },
-    locationType: { type: String, enum: ['google-meet', 'zoom', 'in-person', 'phone'], default: 'google-meet' },
-    locationDetails: { type: String, default: '' },
-    bufferTime: { type: Number, default: 0, min: 0 },
-    isPrivate: { type: Boolean, default: false },
-    isActive: { type: Boolean, default: true }
-}, { timestamps: true });
-// Ensure slugs are unique per host user
-EventTypeSchema.index({ userId: 1, slug: 1 }, { unique: true });
-EventTypeSchema.index({ userId: 1, isActive: 1 });
-exports.EventType = (0, mongoose_1.model)('EventType', EventTypeSchema);
+__exportStar(require("./EventType.model"), exports);

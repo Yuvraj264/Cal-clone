@@ -52,7 +52,7 @@ class SlotController {
                 hostTimezone: availability.timezone || host.timezone || 'UTC',
                 weeklySchedule: availability.weeklySlots,
                 dateOverrides: availability.dateOverrides,
-                existingBookings: existingBookings.map(b => ({
+                existingBookings: existingBookings.map((b) => ({
                     startTime: b.startTime,
                     endTime: b.endTime
                 }))

@@ -1,25 +1,17 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Booking = void 0;
-const mongoose_1 = require("mongoose");
-const BookingSchema = new mongoose_1.Schema({
-    eventTypeId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'EventType', required: true },
-    hostId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true },
-    guestName: { type: String, required: true, trim: true },
-    guestEmail: { type: String, required: true, lowercase: true, trim: true },
-    guestTimezone: { type: String, required: true, default: 'UTC' },
-    guestNotes: { type: String, default: '' },
-    startTime: { type: Date, required: true },
-    endTime: { type: Date, required: true },
-    status: { type: String, enum: ['confirmed', 'cancelled'], default: 'confirmed' },
-    cancellationReason: { type: String, default: '' }
-}, { timestamps: true });
-// Highly performant indexing for calendar scans
-BookingSchema.index({ hostId: 1, startTime: 1, status: 1 });
-BookingSchema.index({ guestEmail: 1 });
-// PARTIAL COMPOUND UNIQUE INDEX: Hard barrier against duplicate slot assignments
-BookingSchema.index({ hostId: 1, startTime: 1, status: 1 }, {
-    unique: true,
-    partialFilterExpression: { status: 'confirmed' }
-});
-exports.Booking = (0, mongoose_1.model)('Booking', BookingSchema);
+__exportStar(require("./Booking.model"), exports);
