@@ -7,6 +7,7 @@ import healthRoutes from './routes/health.routes';
 import authRoutes from './routes/authRoutes';
 import bookingRoutes from './routes/bookingRoutes';
 import slotRoutes from './routes/slotRoutes';
+import eventTypeRoutes from './routes/eventType.routes';
 import { errorMiddleware } from './middleware/error.middleware';
 
 const app = express();
@@ -29,6 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Central REST API endpoint router mounts
 app.use('/api/health', healthRoutes);
+app.use('/api/event-types', eventTypeRoutes);
 
 // Retain and mount our phase-wise features
 app.use('/api/v1/auth', authRoutes);

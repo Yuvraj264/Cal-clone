@@ -12,3 +12,22 @@ export interface IEventTypeDTO extends IEventTypeBase {
   createdAt: string;
   updatedAt: string;
 }
+
+export type EventType = IEventTypeDTO;
+
+export interface CreateEventTypePayload {
+  title: string;
+  description?: string;
+  duration: number;
+  slug: string;
+  timezone: string;
+  userId?: string; // Optional if derived from authenticated session
+}
+
+export interface UpdateEventTypePayload {
+  title?: string;
+  description?: string;
+  duration?: number;
+  slug?: string;
+  timezone?: string;
+}
