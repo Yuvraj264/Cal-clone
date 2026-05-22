@@ -1,5 +1,7 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { cn } from '../../utils/cn';
+import { hoverScaleVariants } from '../../utils/motion';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive';
@@ -16,7 +18,7 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-xl border transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-xl border transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed select-none';
 
   const variants = {
     primary: 'bg-gray-900 text-white border-transparent hover:bg-gray-800 active:bg-black dark:bg-white dark:text-black dark:hover:bg-gray-100',
@@ -33,10 +35,14 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   return (
-    <button
+    <motion.button
+      variants={hoverScaleVariants}
+      initial="rest"
+      whileHover="hover"
+      whileTap="tap"
       disabled={disabled || loading}
       className={cn(baseStyles, variants[variant], sizes[size], className)}
-      {...props}
+      {...(props as any)}
     >
       {loading && (
         <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-current" fill="none" viewBox="0 0 24 24">
@@ -45,7 +51,7 @@ export const Button: React.FC<ButtonProps> = ({
         </svg>
       )}
       {children}
-    </button>
+    </motion.button>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { cn } from '../../utils/cn';
+import { backdropVariants, modalVariants } from '../../utils/motion';
 
 interface ModalProps {
   isOpen: boolean;
@@ -36,19 +37,20 @@ export const Modal: React.FC<ModalProps> = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
           {/* Backdrop Overlay */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            variants={backdropVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
             onClick={onClose}
             className="fixed inset-0 bg-black/40 backdrop-blur-[2px] dark:bg-black/60"
           />
 
           {/* Modal Content Panel */}
           <motion.div
-            initial={{ scale: 0.95, opacity: 0, y: 10 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.95, opacity: 0, y: 10 }}
-            transition={{ duration: 0.15, ease: 'easeOut' }}
+            variants={modalVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
             className={cn(
               'relative w-full max-w-lg bg-white dark:bg-gray-900 border border-gray-150 dark:border-gray-800 rounded-2xl shadow-xl p-6 z-10 focus:outline-none overflow-hidden',
               className
