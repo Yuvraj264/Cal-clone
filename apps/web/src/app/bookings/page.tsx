@@ -6,6 +6,8 @@ import { Booking } from '@calclone/types';
 import BookingService from '../../services/booking.service';
 import BookingTabs from '../../components/dashboard/BookingTabs';
 import BookingList from '../../components/dashboard/BookingList';
+import DashboardLayout from '../../components/layout/DashboardLayout';
+import PageContainer from '../../components/layout/PageContainer';
 import dayjs from 'dayjs';
 
 interface ToastState {
@@ -91,47 +93,49 @@ export default function BookingsDashboard() {
   const activeBookingsList = activeTab === 'upcoming' ? upcomingBookings : pastBookings;
 
   return (
-    <div className="min-h-screen bg-gray-50/50 dark:bg-black py-10 px-4 sm:px-6 lg:px-8">
-      {/* Dynamic Alert Banner */}
-      {toast.show && (
-        <div className={`fixed top-4 right-4 z-50 flex items-center px-4 py-3 rounded-xl border shadow-lg transition-all duration-300 transform translate-y-0 ${
-          toast.type === 'success'
-            ? 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-900'
-            : 'bg-rose-50 text-rose-800 border-rose-200 dark:bg-rose-950 dark:text-rose-300 dark:border-rose-900'
-        }`}>
-          <span className="text-xs font-semibold">{toast.message}</span>
-        </div>
-      )}
+    <DashboardLayout>
+      <PageContainer>
+        {/* Dynamic Alert Banner */}
+        {toast.show && (
+          <div className={`fixed top-4 right-4 z-50 flex items-center px-4 py-3 rounded-xl border shadow-lg transition-all duration-300 transform translate-y-0 ${
+            toast.type === 'success'
+              ? 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-900'
+              : 'bg-rose-50 text-rose-800 border-rose-200 dark:bg-rose-950 dark:text-rose-300 dark:border-rose-900'
+          }`}>
+            <span className="text-xs font-semibold">{toast.message}</span>
+          </div>
+        )}
 
-      <div className="max-w-5xl mx-auto flex flex-col gap-6">
-        <div className="flex flex-col gap-1.5">
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Bookings
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Monitor and manage guest reservations, calendar slot assignments, and cancellations.
-          </p>
-        </div>
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-1.5">
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+              Bookings
+            </h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Monitor and manage guest reservations, calendar slot assignments, and cancellations.
+            </p>
+          </div>
 
-        {/* Tab Selection */}
-        <div className="bg-white border border-gray-150 rounded-2xl p-2 shadow-sm dark:bg-gray-900 dark:border-gray-800/80">
-          <BookingTabs
-            activeTab={activeTab}
-            onChange={setActiveTab}
-            upcomingCount={upcomingBookings.length}
-            pastCount={pastBookings.length}
-          />
-
-          <div className="mt-6 p-2 sm:p-4">
-            <BookingList
-              bookings={activeBookingsList}
-              loading={loading}
-              tab={activeTab}
-              onCancel={handleCancelBooking}
+          {/* Tab Selection */}
+          <div className="bg-white border border-gray-150 rounded-2xl p-2 shadow-sm dark:bg-gray-900 dark:border-gray-800/80">
+            <BookingTabs
+              activeTab={activeTab}
+              onChange={setActiveTab}
+              upcomingCount={upcomingBookings.length}
+              pastCount={pastBookings.length}
             />
+
+            <div className="mt-6 p-2 sm:p-4">
+              <BookingList
+                bookings={activeBookingsList}
+                loading={loading}
+                tab={activeTab}
+                onCancel={handleCancelBooking}
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </PageContainer>
+    </DashboardLayout>
   );
 }
