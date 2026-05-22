@@ -6,21 +6,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const app_1 = __importDefault(require("./app"));
 const db_1 = require("./config/db");
-// Load env configurations
+// 1. Load system environmental profiles
 dotenv_1.default.config();
 const PORT = process.env.PORT || 5000;
-async function bootstrap() {
+async function startServer() {
     try {
-        // 1. Initialize MongoDB connection pool
+        // 2. Establish MongoDB adapter pool
         await (0, db_1.connectDB)();
-        // 2. Start API Listening
+        // 3. Mount listening server socket
         app_1.default.listen(PORT, () => {
-            console.log(`Express API Server listening on: http://localhost:${PORT}`);
+            console.log(`[SERVER SUCCESS]: Express API Server booting on port: http://localhost:${PORT}`);
         });
     }
     catch (error) {
-        console.error('[CRITICAL BOOTSTRAP FAILURE]:', error);
+        console.error(`[SERVER CRITICAL ERROR]: Startup sequence aborted: ${error.message}`);
         process.exit(1);
     }
 }
-bootstrap();
+startServer();

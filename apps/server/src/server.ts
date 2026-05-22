@@ -2,24 +2,24 @@ import dotenv from 'dotenv';
 import app from './app';
 import { connectDB } from './config/db';
 
-// Load env configurations
+// 1. Load system environmental profiles
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
-async function bootstrap() {
+async function startServer(): Promise<void> {
   try {
-    // 1. Initialize MongoDB connection pool
+    // 2. Establish MongoDB adapter pool
     await connectDB();
 
-    // 2. Start API Listening
+    // 3. Mount listening server socket
     app.listen(PORT, () => {
-      console.log(`Express API Server listening on: http://localhost:${PORT}`);
+      console.log(`[SERVER SUCCESS]: Express API Server booting on port: http://localhost:${PORT}`);
     });
-  } catch (error) {
-    console.error('[CRITICAL BOOTSTRAP FAILURE]:', error);
+  } catch (error: any) {
+    console.error(`[SERVER CRITICAL ERROR]: Startup sequence aborted: ${error.message}`);
     process.exit(1);
   }
 }
 
-bootstrap();
+startServer();

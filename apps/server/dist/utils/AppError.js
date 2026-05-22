@@ -3,13 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppError = void 0;
 class AppError extends Error {
     statusCode;
-    code;
-    constructor(statusCode, code, message) {
+    errorCode;
+    isOperational;
+    constructor(statusCode, errorCode, message, isOperational = true) {
         super(message);
         this.statusCode = statusCode;
-        this.code = code;
-        Object.setPrototypeOf(this, AppError.prototype);
+        this.errorCode = errorCode;
+        this.isOperational = isOperational;
+        // Restore prototype chain
+        Object.setPrototypeOf(this, new.target.prototype);
+        Error.captureStackTrace(this, this.constructor);
     }
 }
 exports.AppError = AppError;
-const Target = AppError; // Avoid compile issues in ES5 envs
