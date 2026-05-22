@@ -15,6 +15,22 @@ export interface IBookingDTO extends IBookingBase {
   updatedAt: string;
 }
 
+export type Booking = IBookingDTO;
+
+export interface CreateBookingPayload {
+  eventTypeSlug: string;
+  bookerName: string;
+  bookerEmail: string;
+  date: string;       // YYYY-MM-DD
+  startTime: string;  // HH:mm
+}
+
+export interface BookingResponse {
+  success: boolean;
+  message: string;
+  data: Booking;
+}
+
 export type Slot = string; // e.g. "09:00"
 
 export interface SlotResponse {

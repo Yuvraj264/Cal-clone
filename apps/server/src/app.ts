@@ -10,6 +10,7 @@ import slotRoutes from './routes/slotRoutes';
 import eventTypeRoutes from './routes/eventType.routes';
 import availabilityRoutes from './routes/availability.routes';
 import slotEngineRoutes from './routes/slot.routes';
+import bookingEngineRoutes from './routes/booking.routes';
 import { errorMiddleware } from './middleware/error.middleware';
 
 const app = express();
@@ -35,6 +36,7 @@ app.use('/api/health', healthRoutes);
 app.use('/api/event-types', eventTypeRoutes);
 app.use('/api/availability', availabilityRoutes);
 app.use('/api/slots', slotEngineRoutes);
+app.use('/api/bookings', bookingEngineRoutes);
 
 // Retain and mount our phase-wise features
 app.use('/api/v1/auth', authRoutes);
